@@ -1,0 +1,97 @@
+primary_cities:
+  - name: Zurich
+    aliases: ['zurich', 'zurigo']
+  - name: Zug
+    aliases: ['zug', 'zugo']
+  - name: Geneva
+    aliases: ['geneva', 'geneve', 'ginevra']
+  - name: Lausanne
+    aliases: ['lausanne', 'losanna']
+  - name: Munich
+    aliases: ['munich', 'munchen', 'muenchen', 'monaco di baviera']
+  - name: Madrid
+    aliases: ['madrid']
+  - name: Barcelona
+    aliases: ['barcelona', 'barcellona']
+  - name: Vienna
+    aliases: ['vienna', 'wien']
+  - name: Luxembourg
+    aliases: ['luxembourg', 'luxemburg', 'lussemburgo']
+
+
+opportunistic_cities:
+  - name: Amsterdam
+    aliases: ['amsterdam']
+  - name: Dublin
+    aliases: ['dublin', 'dublino']
+  - name: London
+    aliases: ['london', 'londra']
+
+
+remote_patterns:
+  accepted:
+    - 'remote.*emea'
+    - 'remote.*europe'
+    - 'remote.*\beu\b'
+    - 'europe.*remote'
+    - 'emea.*remote'
+    - 'fully remote.*europe'
+
+
+excluded_locations:
+  - italy
+  - italia
+  - milan
+  - milano
+  - rome
+  - roma
+  - turin
+  - torino
+  - bologna
+  - florence
+  - firenze
+  - naples
+  - napoli
+  - berlin
+  - berlino
+  - hamburg
+  - amburgo
+  - frankfurt
+  - francoforte
+  - stuttgart
+  - cologne
+  - stockholm
+  - stoccolma
+  - copenhagen
+  - oslo
+  - helsinki
+  - paris
+  - parigi
+  - brussels
+  - bruxelles
+  - warsaw
+  - varsavia
+  - prague
+  - praga
+  - budapest
+  - bucharest
+  - sofia
+  - athens
+  - atene
+  - istanbul
+  - new york
+  - san francisco
+  - seattle
+  - austin
+  - boston
+  - chicago
+  - los angeles
+  - toronto
+  - bangalore
+  - hyderabad
+  - singapore
+  - tokyo
+  - seoul
+  - sydney
+  - tel aviv
+  - dubai

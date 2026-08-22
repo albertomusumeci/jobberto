@@ -1,0 +1,83 @@
+companies:
+  # === BIG TECH (priority: high) ===
+  - {name: Google,        ats: custom_google,    slug: google,       enabled: true, priority: high}
+  - {name: Microsoft,     ats: custom_microsoft, slug: microsoft,    enabled: true, priority: high}
+  - {name: Meta,          ats: custom_meta,      slug: meta,         enabled: true, priority: high}
+  - {name: Apple,         ats: custom_apple,     slug: apple,        enabled: true, priority: high}
+  - {name: Amazon,        ats: custom_amazon,    slug: amazon,       enabled: true, priority: high}
+  - {name: NVIDIA,        ats: workday,          slug: nvidia,       enabled: true, priority: high}
+  - {name: Oracle,        ats: custom_oracle,    slug: oracle,       enabled: true, priority: medium}
+  - {name: IBM Research,  ats: custom_ibm,       slug: ibm,          enabled: true, priority: medium}
+  - {name: Netflix,       ats: lever,            slug: netflix,      enabled: true, priority: high}
+  - {name: Spotify,       ats: lever,            slug: spotify,      enabled: true, priority: high}
+
+
+  # === DATA / AI / ML PURE PLAY ===
+  - {name: Databricks,    ats: greenhouse,       slug: databricks,   enabled: true, priority: high}
+  - {name: Snowflake,     ats: greenhouse,       slug: snowflake,    enabled: true, priority: high}
+  - {name: Confluent,     ats: greenhouse,       slug: confluent,    enabled: true, priority: high}
+  - {name: Elastic,       ats: greenhouse,       slug: elastic,      enabled: true, priority: medium}
+  - {name: MongoDB,       ats: greenhouse,       slug: mongodb,      enabled: true, priority: medium}
+  - {name: HashiCorp,     ats: greenhouse,       slug: hashicorp,    enabled: true, priority: medium}
+  - {name: GitLab,        ats: greenhouse,       slug: gitlab,       enabled: true, priority: medium}
+  - {name: DeepL,         ats: greenhouse,       slug: deepl,        enabled: true, priority: high}
+  - {name: Hugging Face,  ats: greenhouse,       slug: huggingface,  enabled: true, priority: high}
+  - {name: OpenAI,        ats: greenhouse,       slug: openai,       enabled: true, priority: high}
+  - {name: Anthropic,     ats: greenhouse,       slug: anthropic,    enabled: true, priority: high}
+  - {name: Mistral AI,    ats: lever,            slug: mistral,      enabled: true, priority: high}
+  - {name: Cohere,        ats: ashby,            slug: cohere,       enabled: true, priority: high}
+  - {name: Scale AI,      ats: ashby,            slug: scaleai,      enabled: true, priority: medium}
+
+
+  # === ENTERPRISE SAAS ===
+  - {name: Stripe,        ats: greenhouse,       slug: stripe,       enabled: true, priority: high}
+  - {name: Datadog,       ats: greenhouse,       slug: datadog,      enabled: true, priority: high}
+  - {name: HubSpot,       ats: greenhouse,       slug: hubspot,      enabled: true, priority: medium}
+  - {name: ServiceNow,    ats: workday,          slug: servicenow,   enabled: true, priority: medium}
+  - {name: Notion,        ats: greenhouse,       slug: notion,       enabled: true, priority: high}
+  - {name: Figma,         ats: greenhouse,       slug: figma,        enabled: true, priority: high}
+  - {name: Canva,         ats: lever,            slug: canva,        enabled: true, priority: high}
+  - {name: Atlassian,     ats: workday,          slug: atlassian,    enabled: true, priority: medium}
+  - {name: Twilio,        ats: greenhouse,       slug: twilio,       enabled: true, priority: medium}
+  - {name: Zoom,          ats: workday,          slug: zoom,         enabled: true, priority: medium}
+  - {name: Miro,          ats: greenhouse,       slug: miro,         enabled: true, priority: medium}
+  - {name: Cloudflare,    ats: greenhouse,       slug: cloudflare,   enabled: true, priority: high}
+
+
+  # === FINTECH / CONSUMER ===
+  - {name: Revolut,       ats: custom_revolut,   slug: revolut,      enabled: true, priority: medium}
+  - {name: N26,           ats: greenhouse,       slug: n26,          enabled: true, priority: medium}
+  - {name: PayPal,        ats: workday,          slug: paypal,       enabled: true, priority: medium}
+  - {name: Adyen,         ats: greenhouse,       slug: adyen,        enabled: true, priority: medium}
+  - {name: Klarna,        ats: greenhouse,       slug: klarna,       enabled: true, priority: medium}
+  - {name: Booking.com,   ats: workday,          slug: booking,      enabled: true, priority: medium}
+  - {name: Airbnb,        ats: greenhouse,       slug: airbnb,       enabled: true, priority: high}
+  - {name: Uber,          ats: workday,          slug: uber,         enabled: true, priority: medium}
+  - {name: DoorDash,      ats: greenhouse,       slug: doordash,     enabled: true, priority: medium}
+  - {name: Wise,          ats: greenhouse,       slug: wise,         enabled: true, priority: medium}
+
+
+  # === GAMING / MEDIA ===
+  - {name: King,          ats: greenhouse,       slug: king,         enabled: true, priority: medium}
+  - {name: Ubisoft,       ats: smartrecruiters,  slug: ubisoft,      enabled: true, priority: medium}
+  - {name: Riot Games,    ats: greenhouse,       slug: riotgames,    enabled: true, priority: medium}
+  - {name: Unity,         ats: greenhouse,       slug: unity3d,      enabled: true, priority: medium}
+
+
+  # === SCALE-UP EU STRATEGICHE ===
+  - {name: Celonis,       ats: greenhouse,       slug: celonis,      enabled: true, priority: high}
+  - {name: Dynatrace,     ats: greenhouse,       slug: dynatrace,    enabled: true, priority: high}
+  - {name: Bitpanda,      ats: greenhouse,       slug: bitpanda,     enabled: true, priority: medium}
+  - {name: GoStudent,     ats: greenhouse,       slug: gostudent,    enabled: true, priority: medium}
+  - {name: Personio,      ats: greenhouse,       slug: personio,     enabled: true, priority: medium}
+  - {name: Adevinta,      ats: workday,          slug: adevinta,     enabled: true, priority: medium}
+  - {name: Delivery Hero, ats: greenhouse,       slug: deliveryhero, enabled: true, priority: medium}
+
+
+  # === AI-FIRST EXTRA ===
+  - {name: Perplexity,    ats: lever,            slug: perplexityai, enabled: true, priority: high}
+  - {name: Character.AI,  ats: lever,            slug: character,    enabled: true, priority: medium}
+  - {name: Anysphere,     ats: greenhouse,       slug: anysphere,    enabled: true, priority: high}
+  - {name: Runway,        ats: ashby,            slug: runwayml,     enabled: true, priority: medium}
+  - {name: ElevenLabs,    ats: ashby,            slug: elevenlabs,   enabled: true, priority: high}
+

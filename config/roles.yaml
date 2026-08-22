@@ -1,0 +1,208 @@
+# Tutte le regex sono applicate su testo NORMALIZZATO (lowercase, no accenti, abbreviazioni espanse)
+
+
+strong_matches:
+  # AI/ML core
+  - '\bai engineer\b'
+  - '\bartificial intelligence engineer\b'
+  - '\bml engineer\b'
+  - '\bmachine learning engineer\b'
+  - '\bmlops\b'
+  - '\bml ops\b'
+  - '\bmachine learning operations\b'
+  - '\bllm engineer\b'
+  - '\blarge language model\b.*engineer'
+  - '\bgenai engineer\b'
+  - '\bgenerative ai engineer\b'
+  - '\bapplied ai\b'
+  - '\bapplied ml\b'
+  - '\bapplied scientist\b'
+  - '\bresearch engineer\b'
+  - '\bresearch scientist\b'
+  - '\bai/ml platform\b'
+  - '\bml platform engineer\b'
+  - '\bai platform engineer\b'
+  - '\bcomputer vision engineer\b'
+  - '\bnlp engineer\b'
+  - '\bnatural language processing engineer\b'
+  - '\bdeep learning engineer\b'
+  - '\bperception engineer\b'
+
+
+  # Data engineering
+  - '\bdata engineer\b'
+  - '\bsenior data engineer\b'
+  - '\bstaff data engineer\b'
+  - '\banalytics engineer\b'
+  - '\bdata analytics engineer\b'
+
+
+  # Data science
+  - '\bdata scientist\b'
+  - '\bsenior data scientist\b'
+  - '\bstaff data scientist\b'
+  - '\bproduct data scientist\b'
+  - '\bdecision scientist\b'
+
+
+  # BI tecnico
+  - '\bbusiness intelligence engineer\b'
+  - '\bbi engineer\b'
+
+
+  # SWE con ML esplicito
+  - 'software engineer.*(machine learning|artificial intelligence|ml|ai)\b'
+  - '(machine learning|artificial intelligence|ml|ai).*software engineer'
+
+
+review_matches:
+  # SWE generico
+  - '\bsoftware engineer\b'
+  - '\bsenior software engineer\b'
+  - '\bbackend engineer\b'
+  - '\bbackend software engineer\b'
+
+
+  # Solutions / Architect
+  - '\bsolutions architect\b'
+  - '\bsolutions engineer\b'
+  - '\btechnical solutions\b'
+
+
+  # Data Analyst (filtrato per top-tier nel codice)
+  - '\bdata analyst\b'
+  - '\bsenior data analyst\b'
+
+
+  # Lead / Principal senza AI/ML (già gestiti se AI/ML → strong)
+  - '\blead engineer\b'
+  - '\bprincipal engineer\b'
+
+
+blacklist:
+  # Seniority esclusa (con eccezione junior AI/ML gestita nel codice)
+  - '\bintern\b'
+  - '\binternship\b'
+  - '\bworking student\b'
+  - '\bwerkstudent\b'
+  - '\bpraktikum\b'
+  - '\bpraktikant\b'
+  - '\bapprentice\b'
+  - '\bapprenticeship\b'
+  - '\btrainee\b'
+  - '\bgraduate program\b'
+  - '\bnew grad\b'
+
+
+  # Management
+  - '\bmanager\b'
+  - '\bhead of\b'
+  - '\bdirector\b'
+  - '\bvp\b'
+  - '\bvice president\b'
+  - '\bchief\b'
+  - '\bcto\b'
+  - '\bcio\b'
+  - '\bceo\b'
+
+
+  # Non-tech
+  - '\bsales\b'
+  - '\bmarketing\b'
+  - '\brecruiter\b'
+  - '\brecruiting\b'
+  - '\baccount executive\b'
+  - '\baccount manager\b'
+  - '\bbusiness development\b'
+  - '\bcustomer success\b'
+  - '\bcustomer support\b'
+  - '\bcustomer experience\b'
+  - '\bpartner manager\b'
+  - '\bprogram manager\b'
+  - '\bproduct manager\b'
+  - '\bproduct marketing\b'
+  - '\bgo-to-market\b'
+  - '\bgtm\b'
+  - '\bhr\b'
+  - '\bhuman resources\b'
+  - '\bfinance\b'
+  - '\baccountant\b'
+  - '\blegal\b'
+  - '\bcounsel\b'
+
+
+  # Tech ma non allineato
+  - '\bfrontend\b'
+  - '\bfront-end\b'
+  - '\bfront end developer\b'
+  - '\bfull.?stack\b'
+  - '\bios developer\b'
+  - '\bios engineer\b'
+  - '\bandroid developer\b'
+  - '\bandroid engineer\b'
+  - '\bmobile developer\b'
+  - '\bmobile engineer\b'
+  - '\bdevops engineer\b'
+  - '\bsre\b'
+  - '\bsite reliability\b'
+  - '\bsecurity engineer\b'
+  - '\bcybersecurity\b'
+  - '\bqa engineer\b'
+  - '\btest engineer\b'
+  - '\bautomation test\b'
+  - '\btechnical program\b'
+  - '\bforward deployed\b'
+  - '\bhardware engineer\b'
+  - '\bfirmware\b'
+  - '\bembedded\b'
+  - '\bnetwork engineer\b'
+  - '\bsystem administrator\b'
+  - '\bsysadmin\b'
+  - '\bdatabase administrator\b'
+  - '\bdba\b'
+  - '\bgame designer\b'
+  - '\bgame artist\b'
+  - '\bux designer\b'
+  - '\bui designer\b'
+  - '\bux researcher\b'
+  - '\bcopywriter\b'
+  - '\bcontent\b'
+
+
+  # Analytics non-tech
+  - '\bmarketing analyst\b'
+  - '\bfinancial analyst\b'
+  - '\bfinance analyst\b'
+  - '\boperations analyst\b'
+  - '\bbi developer\b'
+  - '\breporting analyst\b'
+  - '\brisk analyst\b'
+  - '\bcredit analyst\b'
+  - '\bcompliance analyst\b'
+
+
+  # Lingua tedesca nel titolo
+  - '\bentwickler\b'
+  - '\bingenieur\b'
+  - '\bmitarbeiter\b'
+  - '\bfachkraft\b'
+
+
+# Ruoli AI/ML "core" per eccezione junior
+ai_ml_core_terms:
+  - '\bai engineer\b'
+  - '\bml engineer\b'
+  - '\bmachine learning\b'
+  - '\bartificial intelligence\b'
+  - '\bapplied ai\b'
+  - '\bapplied ml\b'
+  - '\bapplied scientist\b'
+  - '\bllm\b'
+  - '\blarge language model\b'
+  - '\bgenai\b'
+  - '\bgenerative ai\b'
+  - '\bnlp\b'
+  - '\bnatural language processing\b'
+  - '\bdeep learning\b'
+  - '\bcomputer vision\b'
+

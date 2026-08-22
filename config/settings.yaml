@@ -1,0 +1,26 @@
+telegram:
+  strong_channel_env: TELEGRAM_CHAT_STRONG
+  review_channel_env: TELEGRAM_CHAT_REVIEW
+  bot_token_env: TELEGRAM_BOT_TOKEN
+
+
+polling:
+  timeout_seconds: 15
+  max_concurrent_requests: 10
+  user_agent: "Jobberto/1.0 (personal job aggregator)"
+
+
+daily_log:
+  enabled: true
+  hour: 7
+  minute: 15
+  channel: review  # dove inviare il log giornaliero
+
+
+database:
+  path: data/jobs_seen.db
+
+
+logs:
+  path: logs/jobberto.log
+  level: INFO
