@@ -72,21 +72,38 @@ def main():
 
     state = JobState(str(ROOT / settings["database"]["path"]))
 
-    # === PRIMER: se il DB è vuoto (prima esecuzione), marca tutti i job come "visti"
-    # senza inviare notifiche. Evita lo spam iniziale.
+    # Il primer si attiva se il marker file NON esiste OPPURE se il DB è vuoto/quasi vuoto
+    # (protezione da cache GitHub non ripristinata correttamente)
     first_run_marker = ROOT / "data" / ".first_run_done"
-    is_first_run = not first_run_marker.exists()
+    marker_exists = first_run_marker.exists()
+
+    # Conta job già visti nel DB
+    import sqlite3
+
+    db_path = str(ROOT / settings["database"]["path"])
+    seen_count = 0
+    try:
+        with sqlite3.connect(db_path) as conn:
+            cur = conn.execute("SELECT COUNT(*) FROM seen_jobs")
+            seen_count = cur.fetchone()[0]
+    except Exception:
+        seen_count = 0
+
+    is_first_run = (not marker_exists) and (seen_count < 500)
+
     if is_first_run:
         logger.info(
-            "PRIMA ESECUZIONE: modalità primer attiva (nessuna notifica inviata)"
+            f"PRIMA ESECUZIONE: modalità primer attiva (marker={marker_exists}, seen={seen_count})"
         )
         notifier.send_daily_log(
             "🚀 <b>Jobberto è online!</b>\n\n"
-            "Sto indicizzando le offerte attuali di ~60 aziende. "
+            "Sto indicizzando le offerte attuali. "
             "Non riceverai notifiche per questa prima scansione.\n"
-            "Dalla prossima esecuzione (~15 min) inizierai a ricevere solo "
+            "Dalla prossima esecuzione inizierai a ricevere solo "
             "le <b>nuove</b> offerte pubblicate."
         )
+    else:
+        logger.info(f"Run normale (marker={marker_exists}, {seen_count} job in DB)")
 
     strong_count = 0
     review_count = 0
