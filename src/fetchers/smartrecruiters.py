@@ -1,9 +1,15 @@
 """
 Fetcher per SmartRecruiters (Canva, Booking.com, Ubisoft, Adevinta, Delivery Hero).
 API: https://api.smartrecruiters.com/v1/companies/{slug}/postings
+
+URL pubblico: https://jobs.smartrecruiters.com/{slug}/{id}-{title-kebab-case}
+
+Nota: NON usiamo applyUrl dell'API perché punta all'endpoint API stesso,
+non alla pagina pubblica del job. Costruiamo l'URL manualmente.
 """
 
 import logging
+import re
 from typing import List
 
 import httpx
@@ -24,7 +30,7 @@ class SmartRecruitersFetcher(BaseFetcher):
         all_items = []
         offset = 0
         limit = 100
-        max_pages = 10  # safety: 1000 job max
+        max_pages = 20  # safety: 2000 job max
 
         for _ in range(max_pages):
             params = {"limit": limit, "offset": offset}
@@ -52,6 +58,7 @@ class SmartRecruitersFetcher(BaseFetcher):
         for j in all_items:
             job_id = str(j.get("id", ""))
             title = j.get("name", "")
+
             loc_obj = j.get("location", {}) or {}
             loc_parts = [
                 loc_obj.get("city", ""),
@@ -60,8 +67,9 @@ class SmartRecruitersFetcher(BaseFetcher):
             ]
             loc = ", ".join(p for p in loc_parts if p)
 
-            ref = j.get("refNumber", job_id)
-            url_job = f"https://jobs.smartrecruiters.com/{slug}/{ref}"
+            # URL pubblico: costruito manualmente nel formato SmartRecruiters standard
+            title_slug = self._slugify(title)
+            url_job = f"https://jobs.smartrecruiters.com/{slug}/{job_id}-{title_slug}"
 
             jobs.append(
                 Job(
@@ -73,3 +81,16 @@ class SmartRecruitersFetcher(BaseFetcher):
                 )
             )
         return jobs
+
+    @staticmethod
+    def _slugify(text: str) -> str:
+        """
+        'Product Data Scientist (They/She/He)' → 'product-data-scientist-they-she-he-'
+        Replica il pattern kebab-case di SmartRecruiters (mantiene trattini finali).
+        """
+        if not text:
+            return ""
+        s = text.lower()
+        s = re.sub(r"[^a-z0-9]+", "-", s)
+        s = s.lstrip("-")
+        return s
