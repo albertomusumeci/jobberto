@@ -121,7 +121,7 @@ def main():
         cslug = company["slug"]
         try:
             fetcher = get_fetcher(cats)
-            jobs = fetcher.fetch(cslug)
+            jobs = fetcher.fetch(company)
             total_jobs += len(jobs)
             companies_ok += 1
             logger.info(f"[{cname}] {len(jobs)} job scaricati")

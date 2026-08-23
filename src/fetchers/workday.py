@@ -1,7 +1,19 @@
 """
 Fetcher generico per Workday.
-Attenzione: Workday richiede un endpoint per-tenant.
-Questo fetcher usa una mappa configurabile; se il tenant non è mappato, ritorna [].
+Legge workday_host e workday_site direttamente dal companies.yaml.
+
+
+Esempio YAML:
+  - name: NVIDIA
+    ats: workday
+    slug: nvidia
+    workday_host: nvidia.wd5.myworkdayjobs.com
+    workday_site: NVIDIAExternalCareerSite
+
+
+Il campo workday_host può essere:
+- Nome host completo: "nvidia.wd5.myworkdayjobs.com"
+- Solo suffisso wd: "wd5" (il fetcher costruisce host = "{slug}.wd5.myworkdayjobs.com")
 """
 
 import logging
@@ -14,58 +26,71 @@ from .base import BaseFetcher, Job
 logger = logging.getLogger(__name__)
 
 
-# Mappa slug → (tenant Workday, site)
-# Aggiungi qui se scopri nuovi tenant. Alcuni sono soggetti a cambio nel tempo.
-WORKDAY_TENANTS = {
-    "nvidia": ("nvidia", "NVIDIAExternalCareerSite"),
-    "servicenow": ("servicenow", "ServiceNowCareers"),
-    "atlassian": ("atlassian", "External"),
-    "zoom": ("zoom", "Zoom"),
-    "paypal": ("paypal", "jobs"),
-    "booking": ("booking", "Booking"),
-    "uber": ("uber", "uberexternal"),
-    "adevinta": ("adevinta", "External_Career_Site"),
-}
-
-
 class WorkdayFetcher(BaseFetcher):
     name = "workday"
 
-    def fetch(self, slug: str) -> List[Job]:
-        if slug not in WORKDAY_TENANTS:
-            logger.warning(f"Workday tenant non mappato per slug='{slug}'. Salto.")
+    def fetch(self, company: dict) -> List[Job]:
+        slug = company["slug"]
+        host_raw = company.get("workday_host", "")
+        site = company.get("workday_site", "External")
+
+        if not host_raw:
+            logger.warning(f"Workday: workday_host mancante per {company.get('name')}")
             return []
 
-        tenant, site = WORKDAY_TENANTS[slug]
-        url = f"https://{tenant}.wd5.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs"
+        # Normalizza host: supporta sia "wd5" che "nvidia.wd5.myworkdayjobs.com"
+        if host_raw.startswith("wd") and "." not in host_raw:
+            # Solo suffisso wd → costruisci full host usando slug
+            host = f"{slug}.{host_raw}.myworkdayjobs.com"
+        else:
+            host = host_raw
 
-        payload = {"appliedFacets": {}, "limit": 50, "offset": 0, "searchText": ""}
+        url = f"https://{host}/wday/cxs/{slug}/{site}/jobs"
         headers = {
             "User-Agent": "Jobberto/1.0",
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        # Alcuni tenant sono su wd1/wd3/wd5. Provo wd5 poi wd3 poi wd1.
-        for wd in ("wd5", "wd3", "wd1"):
-            try_url = (
-                f"https://{tenant}.{wd}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs"
-            )
+        all_postings = []
+        limit = 20
+        offset = 0
+        max_pages = 25  # safety: 500 job max
+
+        for _ in range(max_pages):
+            payload = {
+                "appliedFacets": {},
+                "limit": limit,
+                "offset": offset,
+                "searchText": "",
+            }
             try:
-                r = httpx.post(try_url, json=payload, headers=headers, timeout=15)
-                if r.status_code == 200:
-                    data = r.json()
+                r = httpx.post(url, json=payload, headers=headers, timeout=15)
+                if r.status_code != 200:
+                    logger.warning(
+                        f"Workday {company.get('name')} status {r.status_code} "
+                        f"url={url} offset={offset}"
+                    )
                     break
-            except Exception:
-                continue
-        else:
-            logger.warning(f"Workday: tutti i tentativi falliti per {tenant}/{site}")
-            return []
+                data = r.json()
+            except Exception as e:
+                logger.warning(f"Workday {company.get('name')} error: {e}")
+                break
+
+            postings = data.get("jobPostings", [])
+            if not postings:
+                break
+            all_postings.extend(postings)
+
+            total = data.get("total", 0)
+            offset += limit
+            if offset >= total:
+                break
 
         jobs = []
-        for p in data.get("jobPostings", []):
+        for p in all_postings:
             ext_path = p.get("externalPath", "")
-            job_url = f"https://{tenant}.{wd}.myworkdayjobs.com/{site}{ext_path}"
+            job_url = f"https://{host}/en-US/{site}{ext_path}"
             jobs.append(
                 Job(
                     job_id=ext_path,

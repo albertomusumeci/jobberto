@@ -8,11 +8,11 @@ from typing import List
 
 @dataclass
 class Job:
-    job_id: str  # ID univoco dentro l'ATS (usato per dedup insieme all'azienda)
+    job_id: str
     title: str
     location: str
-    url: str  # URL principale (di solito ATS)
-    url_native: str = ""  # URL sul sito azienda, se diverso e disponibile
+    url: str
+    url_native: str = ""
 
 
 class BaseFetcher:
@@ -20,5 +20,11 @@ class BaseFetcher:
 
     name = "base"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
+        """
+        Riceve l'intero dict company da companies.yaml.
+        Fetcher semplici leggeranno solo company["slug"].
+        Fetcher con parametri custom (Workday, Eightfold) leggeranno campi extra
+        come company["workday_host"], company["eightfold_endpoint_type"], ecc.
+        """
         raise NotImplementedError

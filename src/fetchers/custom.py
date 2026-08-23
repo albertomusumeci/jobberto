@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class GoogleFetcher(BaseFetcher):
     name = "custom_google"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://www.google.com/about/careers/applications/jobs/results/"
         params = {
             "location": "Europe",
@@ -65,7 +65,7 @@ class GoogleFetcher(BaseFetcher):
 class MicrosoftFetcher(BaseFetcher):
     name = "custom_microsoft"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://gcsservices.careers.microsoft.com/search/api/v1/search"
         params = {
             "lc": "Switzerland,Germany,Spain,Austria,Luxembourg,Netherlands,Ireland,United Kingdom",
@@ -105,7 +105,7 @@ class MicrosoftFetcher(BaseFetcher):
 class MetaFetcher(BaseFetcher):
     name = "custom_meta"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         logger.info("Meta: fetcher disabilitato (usa LinkedIn Alert dedicato)")
         return []
 
@@ -113,7 +113,7 @@ class MetaFetcher(BaseFetcher):
 class AppleFetcher(BaseFetcher):
     name = "custom_apple"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://jobs.apple.com/api/role/search"
         headers = {
             "User-Agent": "Jobberto/1.0",
@@ -165,7 +165,7 @@ class AppleFetcher(BaseFetcher):
 class AmazonFetcher(BaseFetcher):
     name = "custom_amazon"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://www.amazon.jobs/en/search.json"
         params = {
             "normalized_country_code[]": [
@@ -207,7 +207,7 @@ class AmazonFetcher(BaseFetcher):
 class OracleFetcher(BaseFetcher):
     name = "custom_oracle"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         logger.info("Oracle: fetcher non implementato")
         return []
 
@@ -215,7 +215,7 @@ class OracleFetcher(BaseFetcher):
 class IBMFetcher(BaseFetcher):
     name = "custom_ibm"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://careers.ibm.com/api/jobs"
         params = {
             "country": "CH,DE,ES,AT,LU,NL,IE,GB",
@@ -249,7 +249,7 @@ class IBMFetcher(BaseFetcher):
 class RevolutFetcher(BaseFetcher):
     name = "custom_revolut"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
         url = "https://www.revolut.com/api/careers/jobs/"
         headers = {"User-Agent": "Jobberto/1.0", "Accept": "application/json"}
         try:

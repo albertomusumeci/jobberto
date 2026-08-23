@@ -1,5 +1,5 @@
 """
-Fetcher per Lever (Netflix, Spotify, Canva, Mistral, Perplexity, ecc.)
+Fetcher per Lever.
 """
 
 import logging
@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 class LeverFetcher(BaseFetcher):
     name = "lever"
 
-    def fetch(self, slug: str) -> List[Job]:
+    def fetch(self, company: dict) -> List[Job]:
+        slug = company["slug"]
         url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
         headers = {"User-Agent": "Jobberto/1.0"}
         r = httpx.get(url, headers=headers, timeout=15)

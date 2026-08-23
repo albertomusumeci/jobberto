@@ -1,7 +1,25 @@
-venv/
-__pycache__/
-*.pyc
+# Segreti
 .env
+
+# Database e log locali
 data/
 logs/
-*.db 
+*.db
+*.db-journal
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Test file temporaneo
+test_fetchers.py 
+
