@@ -250,10 +250,10 @@ class RevolutFetcher(BaseFetcher):
     name = "custom_revolut"
 
     def fetch(self, slug: str) -> List[Job]:
-        url = "https://www.revolut.com/api/careers/jobs"
+        url = "https://www.revolut.com/api/careers/jobs/"
         headers = {"User-Agent": "Jobberto/1.0", "Accept": "application/json"}
         try:
-            r = httpx.get(url, headers=headers, timeout=20)
+            r = httpx.get(url, headers=headers, timeout=20, follow_redirects=True)
             r.raise_for_status()
             data = r.json()
         except Exception as e:
@@ -261,15 +261,28 @@ class RevolutFetcher(BaseFetcher):
             return []
 
         jobs = []
-        items = data if isinstance(data, list) else data.get("jobs", [])
+        items = (
+            data if isinstance(data, list) else data.get("jobs", data.get("data", []))
+        )
         for j in items:
+            job_id = str(j.get("id", "") or j.get("slug", ""))
+            title = j.get("text", "") or j.get("title", "") or j.get("name", "")
+            loc = ""
+            if isinstance(j.get("categories"), dict):
+                loc = j["categories"].get("location", "")
+            loc = (
+                loc or j.get("location", "") or j.get("locations", [""])[0]
+                if isinstance(j.get("locations"), list)
+                else ""
+            )
             jobs.append(
                 Job(
-                    job_id=str(j.get("id", "")),
-                    title=j.get("text", "") or j.get("title", ""),
-                    location=(j.get("categories") or {}).get("location", "")
-                    or j.get("location", ""),
-                    url=j.get("hostedUrl", "") or j.get("url", ""),
+                    job_id=job_id,
+                    title=title,
+                    location=str(loc),
+                    url=j.get("hostedUrl", "")
+                    or j.get("url", "")
+                    or f"https://www.revolut.com/careers/position/{job_id}",
                     url_native="",
                 )
             )

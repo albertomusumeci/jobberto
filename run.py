@@ -109,6 +109,20 @@ def main():
             companies_ok += 1
             logger.info(f"[{cname}] {len(jobs)} job scaricati")
 
+            # Primer per-azienda: se non ho MAI visto job da questa azienda,
+            # marca tutti i primi come visti senza notificare (evita spam quando aggiungo aziende)
+            import sqlite3
+
+            with sqlite3.connect(str(ROOT / settings["database"]["path"])) as conn:
+                cur = conn.execute(
+                    "SELECT COUNT(*) FROM seen_jobs WHERE company = ?", (cname,)
+                )
+                company_seen_count = cur.fetchone()[0]
+            company_needs_primer = company_seen_count == 0
+
+            if company_needs_primer and not is_first_run:
+                logger.info(f"[{cname}] primer per-azienda attivo (nuova azienda)")
+
             for job in jobs:
                 jkey = job_hash(cname, job.job_id, job.url)
                 if state.is_seen(jkey):
@@ -118,8 +132,8 @@ def main():
                     job.title, job.location, company, roles_cfg, locations_cfg
                 )
 
-                # In modalità primer: marca come visto SENZA notificare
-                if is_first_run:
+                # Primer globale o per-azienda: marca senza notificare
+                if is_first_run or company_needs_primer:
                     state.mark_seen(
                         jkey,
                         cname,

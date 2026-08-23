@@ -2,6 +2,7 @@ from .ashby import AshbyFetcher
 from .custom import CustomFetcher, get_custom_fetcher
 from .greenhouse import GreenhouseFetcher
 from .lever import LeverFetcher
+from .smartrecruiters import SmartRecruitersFetcher
 from .workday import WorkdayFetcher
 
 FETCHERS = {
@@ -9,6 +10,7 @@ FETCHERS = {
     "lever": LeverFetcher,
     "ashby": AshbyFetcher,
     "workday": WorkdayFetcher,
+    "smartrecruiters": SmartRecruitersFetcher,
 }
 
 
